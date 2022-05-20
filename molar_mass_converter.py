@@ -40,30 +40,47 @@ ELEMENTS_DICT = dict({'H': '1.00797', 'He': '4.00260', 'Li': '6.941',
 
 
 def compound_convert(element: str) -> float:
+    """Returns the molar mass for a elements with one subscript"""  
     if element.find("(") == -1:
-        return float(ELEMENTS_DICT[element[:-1]]) * int(element[-1])
+      return float(ELEMENTS_DICT[element[:-1]]) * int(element[-1])
 
     collective_mass = 0
     for i, char in enumerate(element[1:element.index(")")]):
-        if element[i+1].islower() is True:
-            collective_mass += float(ELEMENTS_DICT[element[i:i+2]]) * int(element[-1])
+        if char.isdigit():
+          pass
+        elif char.islower():
+          pass
+        elif element[i+2].islower() is True and element[i+3].isdigit() is True:
+            collective_mass +=\
+              float(ELEMENTS_DICT[element[i+1:i+3]]) * int(element[-1]) * int(element[i + 3])
         else:
-            collective_mass += float(ELEMENTS_DICT[char]) * int(element[-1])
-
+            collective_mass += float(ELEMENTS_DICT[char]) * int(element[-1]) * int(element[i + 2])
+          
     return collective_mass
 
 
 user_compound = input("Compound: ")
 num_digits = 0
 
-for char in user_compound:
-    try:
-        if float(char):
-            num_digits += 1
-    except ValueError:
+# Get the num of subscritps (ones inside parenthesis don't count)
+modified_user_compound = user_compound
+while True:
+  if modified_user_compound.find("(") != -1:
+    start, end  = modified_user_compound.index("("), modified_user_compound.index(")")
+    modified_user_compound = modified_user_compound[:start] + modified_user_compound[end + 1:]
+  else:
+    for char in modified_user_compound:
+      try:
+        if int(char):
+          num_digits += 1
+      except ValueError:
         pass
+    break
 
 
+
+
+# Main for loop
 molar_mass = 0
 
 for i in range(num_digits):
@@ -74,13 +91,12 @@ for i in range(num_digits):
         except ValueError:
             pass
     next_num = user_compound.index(str(next_num))
+    if user_compound[:next_num + 1].find("(") != -1:
+      next_num = user_compound.index(")") + 1
+      
     molar_mass += compound_convert(user_compound[:next_num + 1])
     user_compound = user_compound[next_num + 1:]
         
-    
+# Return final molar mass
 print(molar_mass)
-
-
-
-
 
