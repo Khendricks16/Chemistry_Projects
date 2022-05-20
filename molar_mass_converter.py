@@ -78,8 +78,6 @@ while True:
     break
 
 
-
-
 # Main for loop
 molar_mass = 0
 
