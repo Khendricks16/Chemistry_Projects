@@ -8,7 +8,7 @@ with no subscript.
 
 Note: Double-digit subscripts or higher will not work in this program.
 
-# Input Examples:
-H2O1 -> 18.01534
-B1(O2H2)2 -> 78.83948
-H1(C2B1)2Fe1I2 -> 380.32797
+Input Examples:
+*H2O1 -> 18.01534
+*B1(O2H2)2 -> 78.83948
+*H1(C2B1)2Fe1I2 -> 380.32797
