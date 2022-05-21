@@ -72,8 +72,8 @@ def count_subscripts(compound: str) -> int :
                H1(B8Fe9)1 -> 2 """
         
     _num_subscripts = 0
-
     _modified_user_compound = compound
+    
     while True:
       if _modified_user_compound.find("(") != -1:
         _start, _end  = _modified_user_compound.index("("), _modified_user_compound.index(")")
