@@ -12,3 +12,6 @@ Input Examples:
 * H2O1 -> 18.01534
 * B1(O2H2)2 -> 78.83948
 * H1(C2B1)2Fe1I2 -> 380.32797
+
+Acknowledgements:
+Webscraped the periodic element masses from - https://www.angelo.edu/faculty/kboudrea/periodic/structure_mass.htm
