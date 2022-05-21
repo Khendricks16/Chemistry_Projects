@@ -39,49 +39,66 @@ ELEMENTS_DICT = dict({'H': '1.00797', 'He': '4.00260', 'Li': '6.941',
                      'Uub': '(277)'})
 
 
-def compound_convert(element: str) -> float:
-    """Returns the molar mass for a elements with one subscript"""  
+def compound_convert(element: str) -> float :
+    """Returns the molar mass for a elements with one subscript"""
+    
     if element.find("(") == -1:
       return float(ELEMENTS_DICT[element[:-1]]) * int(element[-1])
 
-    collective_mass = 0
+    _collective_mass = 0
+    
     for i, char in enumerate(element[1:element.index(")")]):
         if char.isdigit():
           pass
         elif char.islower():
           pass
         elif element[i+2].islower() is True and element[i+3].isdigit() is True:
-            collective_mass +=\
+            _collective_mass +=\
               float(ELEMENTS_DICT[element[i+1:i+3]]) * int(element[-1]) * int(element[i + 3])
         else:
-            collective_mass += float(ELEMENTS_DICT[char]) * int(element[-1]) * int(element[i + 2])
+            _collective_mass += float(ELEMENTS_DICT[char]) * int(element[-1]) * int(element[i + 2])
           
-    return collective_mass
+    return _collective_mass
 
 
+
+
+def count_subscripts(compound: str) -> int :
+    """Returns the number of subscripts from a given compound.
+
+       - Any subscripts inside of parenthesis do not count
+           ex.
+               (O1H3)2 -> 1
+               H1(B8Fe9)1 -> 2 """
+        
+    _num_subscripts = 0
+
+    _modified_user_compound = compound
+    while True:
+      if _modified_user_compound.find("(") != -1:
+        _start, _end  = _modified_user_compound.index("("), _modified_user_compound.index(")")
+        _modified_user_compound = _modified_user_compound[:_start] + _modified_user_compound[_end + 1:]
+      else:
+        for char in _modified_user_compound:
+          try:
+            if int(char):
+              _num_subscripts += 1
+          except ValueError:
+            continue
+
+        break
+
+    return _num_subscripts
+
+
+#Gets the compound that the molar mass will be found for 
 user_compound = input("Compound: ")
-num_digits = 0
-
-# Get the num of subscritps (ones inside parenthesis don't count)
-modified_user_compound = user_compound
-while True:
-  if modified_user_compound.find("(") != -1:
-    start, end  = modified_user_compound.index("("), modified_user_compound.index(")")
-    modified_user_compound = modified_user_compound[:start] + modified_user_compound[end + 1:]
-  else:
-    for char in modified_user_compound:
-      try:
-        if int(char):
-          num_digits += 1
-      except ValueError:
-        pass
-    break
 
 
 # Main for loop
 molar_mass = 0
 
-for i in range(num_digits):
+for i in range(count_subscripts(user_compound)):
     for char in user_compound:
         try:
             next_num = int(char)
@@ -94,6 +111,7 @@ for i in range(num_digits):
       
     molar_mass += compound_convert(user_compound[:next_num + 1])
     user_compound = user_compound[next_num + 1:]
+
         
 # Return final molar mass
 print(molar_mass)
