@@ -4,7 +4,6 @@ I created this repository for my TI 84 Python Calculator, to be used in Chemistr
 # How to use:
 When the program prompts you to enter a chemical compound, enter a compound only consisting of the periodic element symbols and subscripts. 
 You must enter a subscript after every element. The program will not interpret 1 for an element with no given subscript.
-with no subscript.
 
 Note: Double-digit subscripts or higher will not work in this program.
 
